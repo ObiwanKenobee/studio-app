@@ -28,8 +28,11 @@ export default function Home() {
           <div className="grid gap-6 lg:grid-cols-[1fr_550px] lg:gap-12 xl:grid-cols-[1fr_650px]">
             <div className="flex flex-col justify-center space-y-4">
               <div className="space-y-2">
+                 <p className="max-w-[600px] text-primary font-semibold md:text-xl">
+                  Regenerative Planetary Forum (RPF)
+                </p>
                 <h1 className="font-headline text-4xl font-bold tracking-tighter sm:text-5xl xl:text-6xl/none">
-                  A New Covenant With Earth
+                  Where wisdom meets technology, and Earth becomes the stakeholder.
                 </h1>
                 <p className="max-w-[600px] text-muted-foreground md:text-xl">
                   Join a global movement dedicated to sacred civic diplomacy, regeneration, and planetary AI for a thriving future.
@@ -37,13 +40,13 @@ export default function Home() {
               </div>
               <div className="flex flex-col gap-2 min-[400px]:flex-row">
                 <Button asChild size="lg" className="font-bold">
-                  <a href="/council">Join the Covenant</a>
+                  <a href="/agora">Join the Council</a>
                 </Button>
                 <Button asChild size="lg" variant="secondary" className="font-bold">
-                   <a href="/dashboard">View Earth Scorecard</a>
+                   <a href="/projects">Explore Projects</a>
                 </Button>
                 <Button asChild size="lg" variant="ghost" className="font-bold">
-                   <a href="/forum">Attend RPF 01 <ExternalLink className="ml-2 h-4 w-4" /></a>
+                   <a href="/knowledge">Knowledge Realms <ExternalLink className="ml-2 h-4 w-4" /></a>
                 </Button>
               </div>
             </div>

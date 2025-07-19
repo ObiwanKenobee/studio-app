@@ -10,19 +10,50 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import { Globe, Leaf, Menu } from 'lucide-react';
+import {
+  NavigationMenu,
+  NavigationMenuContent,
+  NavigationMenuItem,
+  NavigationMenuLink,
+  NavigationMenuList,
+  NavigationMenuTrigger,
+  navigationMenuTriggerStyle,
+} from "@/components/ui/navigation-menu"
+import { Globe, Leaf, Menu, VenetianMask } from 'lucide-react';
 import { Button } from '../ui/button';
 import { Sheet, SheetContent, SheetTrigger } from '../ui/sheet';
 import { useState } from 'react';
+import React from 'react';
 
 const navLinks = [
   { href: '/', label: 'Home' },
   { href: '/covenant', label: 'The Covenant' },
-  { href: '/council', label: 'Council' },
   { href: '/dashboard', label: 'Earth Scorecard' },
-  { href: '/governance', label: 'Governance' },
-  { href: '/forum', label: 'Forum' },
 ];
+
+const moduleLinks: { title: string; href: string; description: string }[] = [
+  {
+    title: "Forum Agora",
+    href: "/agora",
+    description: "Global council hub for wisdom-weighted consensus and live-translated roundtables.",
+  },
+  {
+    title: "Projects Exchange",
+    href: "/projects",
+    description: "Interactive map to submit, fund, or replicate successful regenerative solution hubs.",
+  },
+  {
+    title: "Knowledge Realms",
+    href: "/knowledge",
+    description: "Searchable archives of indigenous tech, science, and spiritual philosophies.",
+  },
+  {
+    title: "Tech for Earth Lab",
+    href: "/tech-lab",
+    description: "A collaboration space for climate tech, decentralized health, and ethical AI.",
+  },
+]
+
 
 export default function Header() {
   const pathname = usePathname();
@@ -36,13 +67,33 @@ export default function Header() {
           href={link.href}
           onClick={() => setMobileMenuOpen(false)}
           className={cn(
-            'transition-colors hover:text-primary',
+            'transition-colors hover:text-primary text-sm font-medium',
             pathname === link.href ? 'text-primary font-semibold' : 'text-muted-foreground'
           )}
         >
           {link.label}
         </Link>
       ))}
+       <NavigationMenu>
+        <NavigationMenuList>
+          <NavigationMenuItem>
+            <NavigationMenuTrigger className="text-sm font-medium text-muted-foreground hover:text-primary">Modules</NavigationMenuTrigger>
+            <NavigationMenuContent>
+              <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px] ">
+                {moduleLinks.map((component) => (
+                  <ListItem
+                    key={component.title}
+                    title={component.title}
+                    href={component.href}
+                  >
+                    {component.description}
+                  </ListItem>
+                ))}
+              </ul>
+            </NavigationMenuContent>
+          </NavigationMenuItem>
+        </NavigationMenuList>
+      </NavigationMenu>
     </>
   );
 
@@ -84,7 +135,30 @@ export default function Header() {
                  <span className="font-bold font-headline text-lg">Planetary Covenant</span>
               </Link>
               <nav className="flex flex-col space-y-4 text-lg">
-                <NavLinksContent />
+                 {navLinks.map((link) => (
+                    <Link
+                      key={link.href}
+                      href={link.href}
+                      onClick={() => setMobileMenuOpen(false)}
+                      className={cn(
+                        'transition-colors hover:text-primary',
+                        pathname === link.href ? 'text-primary font-semibold' : 'text-muted-foreground'
+                      )}
+                    >
+                      {link.label}
+                    </Link>
+                  ))}
+                  <p className="font-semibold">Modules</p>
+                  {moduleLinks.map((link) => (
+                     <Link
+                      key={link.href}
+                      href={link.href}
+                      onClick={() => setMobileMenuOpen(false)}
+                      className="text-muted-foreground hover:text-primary pl-4"
+                    >
+                      {link.title}
+                    </Link>
+                  ))}
               </nav>
             </SheetContent>
           </Sheet>
@@ -93,3 +167,29 @@ export default function Header() {
     </header>
   );
 }
+
+const ListItem = React.forwardRef<
+  React.ElementRef<"a">,
+  React.ComponentPropsWithoutRef<"a">
+>(({ className, title, children, ...props }, ref) => {
+  return (
+    <li>
+      <NavigationMenuLink asChild>
+        <a
+          ref={ref}
+          className={cn(
+            "block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground",
+            className
+          )}
+          {...props}
+        >
+          <div className="text-sm font-medium leading-none">{title}</div>
+          <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
+            {children}
+          </p>
+        </a>
+      </NavigationMenuLink>
+    </li>
+  )
+})
+ListItem.displayName = "ListItem"
